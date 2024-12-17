@@ -11,7 +11,7 @@ namespace NoxiousCompatFix
         public const string guid = "com." + teamName + "." + modName;
         public const string teamName = "RiskOfBrainrot";
         public const string modName = "NoxiousCompatFix";
-        public const string version = "1.0.0";
+        public const string version = "1.0.2";
         internal static ConfigFile CustomConfigFile { get; set; }
 
         void Awake()
@@ -25,7 +25,7 @@ namespace NoxiousCompatFix
         {
             foreach (BuffDef buffDef in newBuffDefs)
             {
-                if (buffDef.isDebuff)
+                if (buffDef.isDebuff || buffDef.isDOT)
                 {
                     bool isCompatWithNox = !buffDef.flags.HasFlag(BuffDef.Flags.ExcludeFromNoxiousThorns);
                     bool wantCompat = isCompatWithNox;
@@ -44,11 +44,11 @@ namespace NoxiousCompatFix
                         //if buff is compatible with nox, remove it
                         if (isCompatWithNox)
                         {
-                            buffDef.flags &= ~BuffDef.Flags.ExcludeFromNoxiousThorns;
+                            buffDef.flags |= BuffDef.Flags.ExcludeFromNoxiousThorns;
                         }
                         else //if buff is not compatible with nox, add it
                         {
-                            buffDef.flags |= BuffDef.Flags.ExcludeFromNoxiousThorns;
+                            buffDef.flags &= ~BuffDef.Flags.ExcludeFromNoxiousThorns;
                         }
                     }
                 }
